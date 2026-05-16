@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate rule YAML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+      - name: Run validate-rules.sh
+        run: bash scripts/validate-rules.sh
+
+  fixtures:
+    name: Run rules against fixture corpus
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ast-grep
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/ast-grep/ast-grep/main/scripts/install.sh | bash || cargo install ast-grep --locked
+          ast-grep --version
+      - name: Install yq + jq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+          sudo apt-get update && sudo apt-get install -y jq
+      - name: Run fixture tests
+        run: bash scripts/run-fixtures.sh
+
+  manifest:
+    name: Generate manifest.json
+    runs-on: ubuntu-latest
+    needs: [validate, fixtures]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: pip install pyyaml
+      - name: Generate manifest
+        env:
+          # IMPORTANT: pass untrusted inputs via env, not inline in run scripts
+          # (head_commit.message is attacker-controlled)
+          RAXIT_RULES_VERSION: ${{ github.sha }}
+          RAXIT_RELEASED_BY: ${{ github.actor }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          export RAXIT_RELEASE_REASON="merge ${COMMIT_MESSAGE}"
+          python scripts/generate-manifest.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manifest
+          path: manifest.json
+
+  # TODO: separate job that uploads to S3 — gated by env approval, secrets
+  # release-dev:
+  #   name: Upload to dev S3 bucket
+  #   needs: manifest
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/download-artifact@v4
+  #       with: { name: manifest }
+  #     - uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         role-to-assume: ${{ secrets.AWS_RELEASE_ROLE }}
+  #         aws-region: us-west-2
+  #     - run: aws s3 sync rules/ s3://raxit-dev-scanner-rules/v1/rules/
+  #     - run: aws s3 cp manifest.json s3://raxit-dev-scanner-rules/manifest.json
