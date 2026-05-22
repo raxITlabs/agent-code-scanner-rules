@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Install the scan-agent-code skill into ~/.claude/skills/ (standalone, no plugin needed).
+# Install the agent-security-review skill into ~/.claude/skills/ (standalone, no plugin needed).
 #
-#   curl -fsSL https://raw.githubusercontent.com/raxITlabs/agent-security-rules/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/raxITlabs/agent-security-review/main/install.sh | bash
 #
 # Optional: pass a branch, tag, or commit SHA to pin a version:
 #   curl -fsSL .../install.sh | bash -s -- v0.1.0
 set -euo pipefail
 
-REPO="raxITlabs/agent-security-rules"
+REPO="raxITlabs/agent-security-review"
 REF="${1:-main}"
-SRC_SUBDIR="skills/scan-agent-code"
-DEST="$HOME/.claude/skills/scan-agent-code"
+SRC_SUBDIR="skills/agent-security-review"
+DEST="$HOME/.claude/skills/agent-security-review"
 
-echo "Installing scan-agent-code skill from ${REPO}@${REF} ..."
+echo "Installing agent-security-review skill from ${REPO}@${REF} ..."
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
@@ -35,4 +35,4 @@ echo
 echo "ast-grep is required to run scans. If you don't have it:"
 echo "  brew install ast-grep   |   npm i -g @ast-grep/cli   |   pip install ast-grep-cli"
 echo
-echo "Then in Claude Code, just ask: \"security-review my agent code\" (or /scan-agent-code)."
+echo "Then in Claude Code, just ask: \"security-review my agent code\" (or /agent-security-review)."

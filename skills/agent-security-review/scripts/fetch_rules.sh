@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Resolve the agent-security-rules pack: fetch latest from GitHub, cache it,
+# Resolve the agent-security-review pack: fetch latest from GitHub, cache it,
 # and fall back to the bundled vendored copy when there is no network.
 #
 # Prints the resolved rules-root (the directory containing sgconfig.yml) to STDOUT.
@@ -11,7 +11,7 @@
 set -uo pipefail
 
 OWNER="raxITlabs"
-REPO="agent-security-rules"
+REPO="agent-security-review"
 PIN="${1:-${RULES_PIN:-main}}"
 TTL_HOURS="${RULES_TTL_HOURS:-6}"
 

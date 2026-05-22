@@ -10,5 +10,5 @@ manifest.json
 # Skill-creator dev artifacts (eval fixtures with planted vulns + run workspace) — not shipped
 skill-dev/
 # Skill runtime rule cache (fetched from GitHub on demand)
-skills/scan-agent-code/.cache/
+skills/agent-security-review/.cache/
 findings.json
