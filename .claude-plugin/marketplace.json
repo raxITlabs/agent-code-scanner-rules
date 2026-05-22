@@ -6,7 +6,7 @@
   "description": "raxIT security tooling for AI agents",
   "plugins": [
     {
-      "name": "agent-security-review",
+      "name": "agent-security",
       "source": {
         "source": "github",
         "repo": "raxITlabs/agent-security-review"

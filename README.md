@@ -43,7 +43,7 @@ Install the scanner as a Claude Code skill, then just ask *"security-review my a
 
 ```
 /plugin marketplace add raxITlabs/agent-security-review
-/plugin install agent-security-review@raxitlabs
+/plugin install agent-security@raxitlabs
 ```
 
 **Via [skills.sh](https://skills.sh)** (works across Claude Code, Cursor, Copilot, and 20+ agents):

@@ -1,5 +1,5 @@
 {
-  "name": "agent-security-review",
+  "name": "agent-security",
   "description": "Scan AI-agent, LLM, and MCP code for security vulnerabilities using the raxIT agent-security-review pack (ast-grep). Pulls the latest rules from GitHub at runtime, with a bundled offline fallback.",
   "version": "0.1.0",
   "author": {
