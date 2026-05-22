@@ -1,6 +1,7 @@
 ---
 name: scan-agent-code
 description: Scan AI-agent, LLM, MCP-server, or tool-calling code for security vulnerabilities using the raxIT agent-code-scanner-rules pack (ast-grep), then triage the findings with a concrete fix for each. Use this whenever the user wants to security-review, audit, harden, or "check before shipping" any agentic code — for example "review my agent for security issues", "is my MCP server safe", "audit my LangChain / OpenAI Agents / CrewAI / LlamaIndex tool code", "scan my agent for prompt injection", or "find vulnerabilities in my tool definitions". It catches hardcoded credentials, prompt-injection sinks, unbounded loops / denial-of-wallet, ungated tool dispatch, MCP tool poisoning and SSRF, memory poisoning and data exfiltration, lethal-trifecta skill permissions, and missing gateway auth. Rules are pulled live from GitHub so the checks stay current. Reach for this even when the user doesn't say "ast-grep" or "scan" but clearly wants their agent or LLM code reviewed for security.
+argument-hint: "[path-to-code]"
 ---
 
 # Scan agent code for security issues
@@ -25,6 +26,8 @@ The scan needs the `ast-grep` CLI. Check with `command -v ast-grep`. If it's mis
 Installing software changes the user's machine, so on an unfamiliar or shared setup, say what you're about to run before you run it.
 
 ### 2. Scan the target
+
+Resolve the target path first: if the skill was invoked as `/scan-agent-code <path>`, the path is `$ARGUMENTS`. If `$ARGUMENTS` is empty, use the path the user named, or the current directory (`.`) as the default.
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/scan.sh <path-to-code> > findings.json
