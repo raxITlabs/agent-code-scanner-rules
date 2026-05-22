@@ -9,7 +9,7 @@ set -euo pipefail
 
 REPO="raxITlabs/agent-code-scanner-rules"
 REF="${1:-main}"
-SRC_SUBDIR="plugins/agent-code-scanner/skills/scan-agent-code"
+SRC_SUBDIR="skills/scan-agent-code"
 DEST="$HOME/.claude/skills/scan-agent-code"
 
 echo "Installing scan-agent-code skill from ${REPO}@${REF} ..."
