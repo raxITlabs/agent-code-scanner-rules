@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Install the scan-agent-code skill into ~/.claude/skills/ (standalone, no plugin needed).
 #
-#   curl -fsSL https://raw.githubusercontent.com/raxITlabs/agent-code-scanner-rules/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/raxITlabs/agent-security-rules/main/install.sh | bash
 #
 # Optional: pass a branch, tag, or commit SHA to pin a version:
 #   curl -fsSL .../install.sh | bash -s -- v0.1.0
 set -euo pipefail
 
-REPO="raxITlabs/agent-code-scanner-rules"
+REPO="raxITlabs/agent-security-rules"
 REF="${1:-main}"
 SRC_SUBDIR="skills/scan-agent-code"
 DEST="$HOME/.claude/skills/scan-agent-code"

@@ -1,12 +1,12 @@
 ---
 name: scan-agent-code
-description: Scan AI-agent, LLM, MCP-server, or tool-calling code for security vulnerabilities using the raxIT agent-code-scanner-rules pack (ast-grep), then triage the findings with a concrete fix for each. Use this whenever the user wants to security-review, audit, harden, or "check before shipping" any agentic code — for example "review my agent for security issues", "is my MCP server safe", "audit my LangChain / OpenAI Agents / CrewAI / LlamaIndex tool code", "scan my agent for prompt injection", or "find vulnerabilities in my tool definitions". It catches hardcoded credentials, prompt-injection sinks, unbounded loops / denial-of-wallet, ungated tool dispatch, MCP tool poisoning and SSRF, memory poisoning and data exfiltration, lethal-trifecta skill permissions, and missing gateway auth. Rules are pulled live from GitHub so the checks stay current. Reach for this even when the user doesn't say "ast-grep" or "scan" but clearly wants their agent or LLM code reviewed for security.
+description: Scan AI-agent, LLM, MCP-server, or tool-calling code for security vulnerabilities using the raxIT agent-security-rules pack (ast-grep), then triage the findings with a concrete fix for each. Use this whenever the user wants to security-review, audit, harden, or "check before shipping" any agentic code — for example "review my agent for security issues", "is my MCP server safe", "audit my LangChain / OpenAI Agents / CrewAI / LlamaIndex tool code", "scan my agent for prompt injection", or "find vulnerabilities in my tool definitions". It catches hardcoded credentials, prompt-injection sinks, unbounded loops / denial-of-wallet, ungated tool dispatch, MCP tool poisoning and SSRF, memory poisoning and data exfiltration, lethal-trifecta skill permissions, and missing gateway auth. Rules are pulled live from GitHub so the checks stay current. Reach for this even when the user doesn't say "ast-grep" or "scan" but clearly wants their agent or LLM code reviewed for security.
 argument-hint: "[path-to-code]"
 ---
 
 # Scan agent code for security issues
 
-Run the raxIT **agent-code-scanner-rules** pack (an [ast-grep](https://ast-grep.github.io/) ruleset) against AI-agent / LLM / MCP code, then turn the matches into a prioritized report with the architectural fix for each finding.
+Run the raxIT **agent-security-rules** pack (an [ast-grep](https://ast-grep.github.io/) ruleset) against AI-agent / LLM / MCP code, then turn the matches into a prioritized report with the architectural fix for each finding.
 
 This deliberately pairs two things: a **deterministic scanner** (fast, reproducible, consistent) and **your own review** (catches what patterns can't). Treat the scanner as a **floor, not a ceiling** — ast-grep matches fixed patterns, so it reliably finds the shapes it knows but silently misses variants and whole classes it has no rule for. A report that only repeats scanner output will quietly miss real, obvious vulnerabilities. Your job is to run the scanner *and* read the code, then produce a report the user can trust.
 
@@ -33,7 +33,7 @@ Resolve the target path first: if the skill was invoked as `/scan-agent-code <pa
 bash ${CLAUDE_SKILL_DIR}/scripts/scan.sh <path-to-code> > findings.json
 ```
 
-`scan.sh` fetches the latest rules from `raxITlabs/agent-code-scanner-rules` (`main`), caches them locally, and falls back to the bundled copy in `references/rules-vendored/` if GitHub is unreachable. It writes ast-grep's JSON findings to stdout.
+`scan.sh` fetches the latest rules from `raxITlabs/agent-security-rules` (`main`), caches them locally, and falls back to the bundled copy in `references/rules-vendored/` if GitHub is unreachable. It writes ast-grep's JSON findings to stdout.
 
 For a **reproducible** scan (CI, audits), pin a commit or tag so the result can't drift:
 
@@ -72,7 +72,7 @@ The pack grows — new agent frameworks, new attack classes. Pulling `main` on e
 
 Hardcoded credentials, plaintext DB connections, ambient identity / Confused Deputy, unbounded agent loops / denial-of-wallet, LLM output reaching dangerous sinks, ungated tool dispatch, secrets in logs, MCP tool poisoning / SSRF, memory poisoning and tainted-read exfiltration, lethal-trifecta skill tool combos, and unauthenticated gateways. Python and TypeScript today; the pack is expanding.
 
-Full catalog: https://github.com/raxITlabs/agent-code-scanner-rules/blob/main/docs/RULES.md
+Full catalog: https://github.com/raxITlabs/agent-security-rules/blob/main/docs/RULES.md
 
 ## Notes
 

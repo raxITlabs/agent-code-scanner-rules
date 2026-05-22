@@ -9,7 +9,7 @@
       "name": "agent-code-scanner",
       "source": {
         "source": "github",
-        "repo": "raxITlabs/agent-code-scanner-rules"
+        "repo": "raxITlabs/agent-security-rules"
       },
       "description": "Scan AI-agent / LLM / MCP code for security vulnerabilities using the raxIT rule pack (ast-grep). Rules are pulled live from GitHub."
     }

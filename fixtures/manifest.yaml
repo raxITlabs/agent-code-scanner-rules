@@ -1,4 +1,4 @@
-# Fixture corpus for agent-code-scanner-rules
+# Fixture corpus for agent-security-rules
 # Each fixture is a public repo cloned by CI to verify rules behave as expected.
 # Expected findings are per rule_id; an empty list means the fixture should produce no findings for that rule.
 

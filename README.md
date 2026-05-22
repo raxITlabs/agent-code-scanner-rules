@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/hero.png" alt="agent-code-scanner-rules — scan agent code, flag insecure patterns" width="640">
+  <img src="assets/hero.png" alt="agent-security-rules — scan agent code, flag insecure patterns" width="640">
 </p>
 
-<h1 align="center">agent-code-scanner-rules</h1>
+<h1 align="center">agent-security-rules</h1>
 
 <p align="center">
   <a href="https://ast-grep.github.io/">ast-grep</a> rules that catch insecure patterns in AI-agent code — before they ship.<br>
@@ -42,20 +42,20 @@ Install the scanner as a Claude Code skill, then just ask *"security-review my a
 **As a plugin** (recommended):
 
 ```
-/plugin marketplace add raxITlabs/agent-code-scanner-rules
+/plugin marketplace add raxITlabs/agent-security-rules
 /plugin install agent-code-scanner@raxitlabs
 ```
 
 **Via [skills.sh](https://skills.sh)** (works across Claude Code, Cursor, Copilot, and 20+ agents):
 
 ```bash
-npx skills add raxITlabs/agent-code-scanner-rules
+npx skills add raxITlabs/agent-security-rules
 ```
 
 **Or one-line install** (standalone skill):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/raxITlabs/agent-code-scanner-rules/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/raxITlabs/agent-security-rules/main/install.sh | bash
 ```
 
 All routes pull the latest rules from this repo at scan time (with an offline fallback) and need [ast-grep](https://ast-grep.github.io/) (`brew install ast-grep`). Skill source: [`skills/scan-agent-code/`](skills/scan-agent-code/).

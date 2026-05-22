@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Scan a target with the agent-code-scanner-rules pack and emit ast-grep JSON.
+# Scan a target with the agent-security-rules pack and emit ast-grep JSON.
 #
 # Usage:  scan.sh <path-to-code> [--pin <sha|tag>]
 # Output: ast-grep JSON findings on STDOUT.
