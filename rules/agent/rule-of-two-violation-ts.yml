@@ -1,0 +1,41 @@
+id: scope.rule-of-two-violation-ts
+language: typescript
+severity: error
+message: |-
+  Meta Rule of Two violated. Module registers tools spanning all three risky
+  properties: [A] untrusted input ingestion, [B] sensitive data access,
+  [C] state change / external comm. This is the lethal trifecta.
+  Architectural fix: split into specialized agents OR require human-in-the-loop before action (Shift 1).
+metadata:
+  shift: scope
+  component: agent
+  framework: meta-rule-of-two
+  properties: [untrusted_input, sensitive_access, state_change]
+  references:
+    - https://ai.meta.com/blog/practical-ai-agent-security/
+    - https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/
+rule:
+  all:
+    - kind: program
+    - has:
+        stopBy: end
+        any:
+          - pattern: governed("vendor.invoice.read", $$$)
+          - pattern: governed("market.oracle.read", $$$)
+          - pattern: fetch($$$)
+          - pattern: $$$.fetchUrl($$$)
+    - has:
+        stopBy: end
+        any:
+          - pattern: governed("stripe.customers.read", $$$)
+          - pattern: governed("treasury.balance.read", $$$)
+          - pattern: governed("wallet.state.read", $$$)
+          - pattern: governed("counterparty.read", $$$)
+          - pattern: $$$.query($$$)
+    - has:
+        stopBy: end
+        any:
+          - pattern: governed("send_email", $$$)
+          - pattern: governed("stripe.payouts", $$$)
+          - pattern: governed("chain.settle", $$$)
+          - pattern: $$$.sendMail($$$)
