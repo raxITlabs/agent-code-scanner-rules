@@ -1,0 +1,33 @@
+id: scope.skill-with-dangerous-tool-combo-ts
+language: typescript
+severity: error
+message: |-
+  Module combines a dangerous tool set (shell + network + filesystem write).
+  Lethal Trifecta candidate.
+  Architectural fix: split into specialized skills, each with a narrow tool list (Shift 1).
+metadata:
+  shift: scope
+  component: skills
+  framework: meta-rule-of-two
+  references:
+    - https://ai.meta.com/blog/practical-ai-agent-security/
+rule:
+  all:
+    - kind: program
+    - has:
+        stopBy: end
+        any:
+          - pattern: execSync($$$)
+          - pattern: exec($$$)
+          - pattern: spawnSync($$$)
+    - has:
+        stopBy: end
+        any:
+          - pattern: fetch($$$)
+          - pattern: $$$OBJ.post($$$)
+          - pattern: $$$OBJ.put($$$)
+    - has:
+        stopBy: end
+        any:
+          - pattern: writeFileSync($$$)
+          - pattern: $$$OBJ.writeFile($$$)
